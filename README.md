@@ -1,5 +1,9 @@
 # Campfire
 
-A particle system experiment with Two.js, based on the scene in Depth-LIB-Android.
+https://dreamingincodezh.github.io/particle-system-campfire/
 
-Developed by Zhang Hai, Nov 2016.
+![Screenshot](art/screenshot.jpg)
+
+A particle system experiment with [Two.js](https://two.js.org/), based on the scene in [Depth-LIB-Android](https://github.com/danielzeller/Depth-LIB-Android-).
+
+Developed by [Zhang Hai](http://www.zhanghai.me/), Nov 2016.
