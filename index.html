@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Campfire</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: normal;
+}
+</style>
+<style>
+input[type=range]::-ms-track {
+    width: 100%;
+    cursor: pointer;
+    /* Hides the slider so custom styles can be added. */
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+
+input[type=range] {
+    width: 100%; /* Specific width is required for Firefox. */
+    padding: 0; /* Remove 1px padding in Firefox. */
+    background: transparent; /* Otherwise white in Chrome. */
+    cursor: pointer;
+    -webkit-appearance: none; /* Hides the slider so that custom slider can be made. */
+}
+input[type=range]:focus {
+    outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+input[type=range]::-webkit-slider-runnable-track {
+    height: 2px;
+    margin: 8px 0;
+    background: rgba(255, 128, 171, 0.38);
+}
+input[type=range]::-webkit-slider-thumb {
+    height: 12px;
+    width: 12px;
+    margin-top: -5px;
+    border-radius: 50%;
+    background: #ff80ab;
+    -webkit-appearance: none;
+}
+input[type=range]:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 8px rgba(255, 128, 171, 0.12);
+}
+input[type=range]:active::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+    margin-top: -8px;
+    box-shadow: none;
+}
+input[type=range]::-moz-focus-outer {
+    border: 0;
+}
+input[type=range]::-moz-range-track {
+    height: 2px;
+    background: rgba(0, 0, 0, 0.38);
+}
+input[type=range]::-moz-range-progress {
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 128, 171, 1);
+}
+input[type=range]::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border: none;
+    border-radius: 50%;
+    background: #ff80ab;
+}
+input[type=range]:focus::-moz-range-thumb {
+    box-shadow: 0 0 0 8px rgba(255, 128, 171, 0.12);
+}
+input[type=range]:active::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    margin-top: -8px;
+    box-shadow: none;
+}
+input[type=range]::-ms-track {
+    height: 2px;
+}
+input[type=range]::-ms-fill-lower {
+    background: #ff80ab;
+}
+input[type=range]::-ms-fill-upper {
+    background: rgba(0, 0, 0, 0.38);
+}
+input[type=range]::-ms-thumb {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background: #ff80ab;
+}
+input[type=range]:focus::-ms-thumb {
+    box-shadow: 0 0 0 8px rgba(255, 128, 171, 0.12);
+}
+input[type=range]:active::-ms-thumb {
+    width: 18px;
+    height: 18px;
+    margin-top: -8px;
+    box-shadow: none;
+}
+</style>
+<style>
+button.fab {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    border: none;
+    border-radius: 50%;
+    background: #ff80ab;
+    box-shadow: rgba(0, 0, 0, 0.156863) 0 3px 10px, rgba(0, 0, 0, 0.227451) 0 3px 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 24px;
+    transition: box-shadow 450ms cubic-bezier(0.23, 1, 0.32, 1);
+    -webkit-appearance: none;
+}
+button.fab:focus {
+    box-shadow: rgba(0, 0, 0, 0.188235) 0 10px 30px, rgba(0, 0, 0, 0.227451) 0 6px 10px;
+    outline: none;
+}
+button.fab::-moz-focus-inner {
+    border: 0;
+}
+button.fab:active {
+    box-shadow: rgba(0, 0, 0, 0.188235) 0 10px 30px, rgba(0, 0, 0, 0.227451) 0 6px 10px;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.18)), linear-gradient(0deg, #ff80ab, #ff80ab);
+}
+button.fab > svg {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+</style>
+<style>
+body {
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 14px;
+}
+.text-color-primary {
+    color: rgba(0, 0, 0, 0.87);
+}
+.text-color-secondary {
+    color: rgba(0, 0, 0, 0.54);
+}
+.text-color-disabled {
+    color: rgba(0, 0, 0, 0.38);
+}
+.text-color-hint {
+    color: rgba(0, 0, 0, 0.38);
+}
+.text-color-primary-inverse {
+    color: rgba(255, 255, 255, 1);
+}
+.text-color-secondary-inverse {
+    color: rgba(255, 255, 255, 0.7);
+}
+.text-color-disabled-inverse {
+    color: rgba(255, 255, 255, 0.5);
+}
+.text-color-hint-inverse {
+    color: rgba(255, 255, 255, 0.5);
+}
+.text-size-body1 {
+    font-size: 14px;
+}
+.text-size-display1 {
+    font-size: 34px;
+}
+a {
+    color: #ff80ab;
+    font-style: inherit;
+    text-decoration: none;
+    transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+a:focus {
+    text-decoration: underline;
+}
+</style>
+<style>
+html, body, body > * {
+    height: 100%;
+}
+html {
+    background: #fafafa;
+}
+body {
+    display: table;
+    width: 100%;
+}
+body > * {
+    display: table-cell;
+    height: 100%;
+}
+#scene {
+    width: 75%;
+    /* Hack for box-shadow of controls. */
+    padding-right: 10px;
+    background: #3A5067;
+}
+#scene > * {
+    /* http://stackoverflow.com/a/8600771/2420519 */
+    display: block;
+    /* `vertical-align: top` doesn't work in Firefox. */
+}
+#controls {
+    width: 25%;
+    vertical-align: top;
+    box-shadow: rgba(0, 0, 0, 0.156863) 0 3px 10px, rgba(0, 0, 0, 0.227451) 0 3px 10px;
+    /*box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;*/
+}
+.header {
+    display: table;
+    width: 100%;
+    height: 25%;
+    padding: 16px;
+    background: #3A5067;
+}
+.header > div {
+    display: table-cell;
+    vertical-align: bottom;
+}
+.item {
+    display: table;
+    width: 100%;
+    height: 64px;
+}
+.item > div {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 12px 16px;
+}
+#play-pause {
+    float: right;
+    margin: -28px 16px -28px 16px;
+}
+hr {
+    height: 1px;
+    margin-top: -1px;
+    border: none;
+    background: rgba(0, 0, 0, 0.12);
+}
+input {
+    display: block;
+}
+input[type=range] {
+    height: 24px;
+    margin-bottom: -6px;
+}
+.display-none {
+    display: none !important;
+}
+</style>
+</head>
+
+<body>
+<div class="display-none">
+    <svg id="white-bear" width="108" height="102">
+        <path
+            d="M 60.5,9.5 51,5 l 1,-2 -8,0 1,-3 -2,0 0,3 -2.5,-2 -1,2 2,1.5 L 21,21 0,71 0,83.5 6.5,95 107,102 108,90.5 105,97 81,89.5 84,87.5 65.5,81 107,80.5 107,69 105,73.5 86,74.5 64,69 44.5,57.5 l 0,-26 6,-18.5 z"
+            fill="#f1ecd3"></path>
+        <path
+            d="M 46.5,65.5 26,52 50.5,13 60.5,9.5 51,5 l 1,-2 -8,0 1,-3 -2,0 0,3 -2.5,-2 -1,2 2,1.5 L 21,21 0,71 0,83.5 6.5,95 37.157425,97.135343 21.537004,63.908502 48,72.5 Z"
+            fill="#ebe7c7"></path>
+        <path
+            d="M 48,72.5 46.5,65.5 26,52 50.5,13 60.5,9.5 51,5 l 1,-2 -8,0 1,-3 -2,0 0,3 -2.5,-2 -1,2 2,1.5 L 21,21 5.2053702,58.606261 Z"
+            fill="#e9e3c2"></path>
+        <circle
+            cy="6.5"
+            cx="47"
+            r="0.5"
+            fill="#000000"></circle>
+    </svg>
+    <svg id="black-bear-1" width="151" height="139">
+        <path
+            d="M 74,60.75 22.5,54 9.5,43.5 20.6875,54.6875 7.5,65.5 l 5,5.5 -2,-5.5 12,-9.5 51.5,6.25 z"
+            fill="#000000"></path>
+        <path
+            d="M 21.761027,38.488969 C 21.313953,36.820467 14.520627,38.235314 8,42 c -6.3098132,3.642972 -8.88332673,9.495364 -7,10 1.9301571,0.517184 5.4606821,-4.379224 10,-7 4.636319,-2.67678 11.200306,-4.871618 10.761027,-6.511031 z"
+            fill="#bd7781"></path>
+        <path
+            d="M 124.777,59.684176 114,62 78,61 l -4,-0.5 -1.5,4 6.5,-1 50.5,12.5 4.5,4 11,-9 z"
+            fill="#2f2422"></path>
+        <path
+            d="m 151,65 0,56 -5.5,10.5 -26.91291,2.20598 L 108,114.5 Z"
+            fill="#000000"></path>
+        <path
+            d="m 129.5,76 -5.5,-19 -9,-2.5 8,-3.5 0,-2 6,0 0,-3 2,0 0,3 1.5,-2 1.5,1 -2,2.5 19,14.5 -1,6 -21.35791,35.47328 -10.055,27.2327 L 54,139 l -1,-10 2,5 4,0 19,-7 -2,-1 16,-6 -38,-1 0,-9.5 1.5,3.5 16.5,1 23,-5.5 16,-10.5 z"
+            fill="#1d1817"></path>
+        <circle
+            cy="51.5"
+            cx="126.5"
+            r="0.5"
+            fill="#d9d7b8"></circle>
+        <path
+            d="M 134,80 130,93 108,114.5 143.5,99.999996 149,78.5 l 1,-7.5 -5,0 z"
+            fill="#3b302c"></path>
+    </svg>
+    <svg id="black-bear-2" width="151" height="139">
+        <path
+            d="M 78.5,83.500004 30.5,94.250002 15,89.5 l 13,6 -7.5,14 5,3.5 -3,-4 8,-13.250002 48,-10.749994 z"
+            fill="#000000"></path>
+        <path
+            d="m 24.75,80.25 c -1.221676,-1.178198 -7.195151,1.196638 -11.25,7.25 -4.0548487,6.053362 -4.9497633,12.5 -3,12.5 1.949764,0 2.912226,-5.764492 6,-10 3.087774,-4.235508 9.471676,-8.571802 8.25,-9.75 z"
+            fill="#dc8f9a"></path>
+        <path
+            d="M 125.91681,63.621718 116.5,70 l -33,11 -5,1 0,4.5 L 84,83 127.6088,78.248996 134,80 145,71 Z"
+            fill="#2f2422"></path>
+        <path
+            d="m 151,65 0,56 -5.5,10.5 -26.91291,2.20598 L 108,114.5 Z"
+            fill="#000000"></path>
+        <path
+            d="m 129.5,76 -5.5,-19 -9,-2.5 8,-3.5 0,-2 6,0 0,-3 2,0 0,3 1.5,-2 1.5,1 -2,2.5 19,14.5 -1,6 -21.35791,35.47328 -10.055,27.2327 L 54,139 l -1,-10 2,5 4,0 19,-7 -2,-1 16,-6 -38,-1 0,-9.5 1.5,3.5 16.5,1 23,-5.5 16,-10.5 z"
+            fill="#1d1817"></path>
+        <circle
+            cx="126.5"
+            cy="51.5"
+            r="0.5"
+            fill="#d9d7b8"></circle>
+        <path
+            d="M 134,80 130,93 108,114.5 143.5,99.999996 149,78.5 l 1,-7.5 -5,0 z"
+            fill="#3b302c"></path>
+    </svg>
+</div>
+<div id="scene">
+</div>
+<div id="controls">
+    <div class="header">
+        <div>
+            <p class="text-color-primary-inverse text-size-display1">Campfire</p>
+        </div>
+    </div>
+    <button id="play-pause" class="fab">
+        <svg id="play-icon" width="24" height="24" fill="white" class="display-none">
+            <path d="M8 5v14l11-7z"></path>
+        </svg>
+        <svg id="pause-icon" width="24" height="24" fill="white">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path>
+        </svg>
+    </button>
+    <div class="item">
+        <div>
+            <p class="text-size-body1">Wind strength</p>
+            <input id="wind-strength" type="range" value="0">
+        </div>
+    </div>
+    <hr>
+    <div class="item">
+        <div>
+            <p class="text-size-body1">Flames height</p>
+            <input id="flames-height" type="range" value="60">
+        </div>
+    </div>
+    <hr>
+    <div class="item">
+        <div>
+            <p class="text-color-secondary text-size-body1">A particle system experiment with <a href="https://two.js.org/">Two.js</a>, based on the scene in <a href="https://github.com/danielzeller/Depth-LIB-Android-">Depth-LIB-Android</a>.<br><br>Developed by <a href="http://www.zhanghai.me">Zhang Hai</a>, Nov 2016.</p>
+        </div>
+    </div>
+    <hr>
+</div>
+</body>
+
+<script src="//cdn.bootcss.com/two.js/0.6.0/two.min.js"></script>
+<script src="//cdn.bootcss.com/chroma-js/1.2.1/chroma.min.js"></script>
+<script src="campfire.js"></script>
+</html>
