@@ -1,6 +1,6 @@
 # Campfire
 
-https://dreamingincodezh.github.io/particle-system-campfire/
+https://zhanghai.github.io/particle-system-campfire/
 
 ![Screenshot](art/screenshot.jpg)
 
